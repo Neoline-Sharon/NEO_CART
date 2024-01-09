@@ -8,70 +8,36 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SearchScreen(),
-    );
-  }
-}
-
-class SearchScreen extends StatefulWidget {
-  @override
-  _SearchScreenState createState() => _SearchScreenState();
-}
-
-class _SearchScreenState extends State<SearchScreen> {
-  List<String> items = [
-    'Apple',
-    'Banana',
-    'Orange',
-    'Mango',
-    'Pineapple',
-    'Grapes',
-    'Strawberry',
-    'Watermelon',
-  ];
-
-  List<String> filteredItems = [];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Search Example'),
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              onChanged: (value) {
-                filterItems(value);
-              },
-              decoration: InputDecoration(
-                labelText: 'Search',
-                hintText: 'Search for fruits...',
-                prefixIcon: Icon(Icons.search),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Main App Bar'),
+          backgroundColor: Colors.blue,
+        ),
+        body: Column(
+          children: [
+            Container(
+              color: Colors.blue,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('First App Bar'),
+                    IconButton(
+                      icon: Icon(Icons.settings),
+                      onPressed: () {
+                        // Add your settings action here
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: filteredItems.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(filteredItems[index]),
-                );
-              },
-            ),
-          ),
-        ],
+            // Rest of your content goes here
+            // ...
+          ],
+        ),
       ),
     );
-  }
-
-  void filterItems(String query) {
-    query = query.toLowerCase();
-    setState(() {
-      filteredItems = items.where((item) => item.toLowerCase().contains(query)).toList();
-    });
   }
 }

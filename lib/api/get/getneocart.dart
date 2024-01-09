@@ -36,3 +36,11 @@ Future<Categorymodel>categoryget()async{
   }
 }
 
+product()async{
+  final responce = await http.get(Uri.parse("https://ecom.laurelss.com/Api/all_products?start=0&per_page=1"));
+  if (responce.statusCode == 200) {
+    final data = jsonDecode(responce.body);
+    return data;
+  }
+}
+
