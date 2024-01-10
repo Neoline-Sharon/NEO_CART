@@ -43,6 +43,7 @@ dependencies:
   http:
   timeline_tile:
   timelines:
+  flutter_automation: ^2.0.0
 
 flutter_launcher_icons:
   android: "launcher_icon"
