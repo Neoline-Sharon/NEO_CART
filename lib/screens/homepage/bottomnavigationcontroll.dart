@@ -2,18 +2,6 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:neocart/controller/controller.dart';
 import 'package:neocart/examplefile/list.dart';
-import 'package:neocart/screens/homepage/Drawer.dart';
-
-
-
-
-// void main() {
-//   runApp(MaterialApp(
-//     debugShowCheckedModeBanner: false,
-//     theme: ThemeData(useMaterial3: false),
-//     home: homepage(),
-//   ));
-// }
 
 colors _colors = colors();
 int _bot = 0;
@@ -28,9 +16,9 @@ class _bottomnavigationcontrollState extends State<bottomnavigationcontroll> {
   @override
   Widget build(BuildContext context) {
 
-    Widget space = SizedBox(height: 10,);
+    // Widget space = SizedBox(height: 10,);
 
-    BoxBorder border = Border.all(strokeAlign: 1, width: 0.5);
+    // BoxBorder border = Border.all(strokeAlign: 1, width: 0.5);
 
 
 

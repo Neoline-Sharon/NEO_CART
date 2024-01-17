@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'bannermodel.dart';
-import 'categorymodel.dart';
+import 'modellclass/bannermodel.dart';
+import 'modellclass/categorymodel.dart';
 
 List<Bannermodel>   bannerstore  = [];
 List<Categorymodel> Categorystore= [];

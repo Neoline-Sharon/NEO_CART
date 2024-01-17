@@ -17,41 +17,27 @@ class registerpage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController controllername = TextEditingController();
-    TextEditingController controlleremail = TextEditingController();
+
+    TextEditingController controllername      = TextEditingController();
+    TextEditingController controlleremail     = TextEditingController();
     TextEditingController controllermobnumber = TextEditingController();
-    TextEditingController controllerpassword = TextEditingController();
+    TextEditingController controllerpassword  = TextEditingController();
 
     Future<void> register() async {
-      String uri =
-          "https://ecom.laurelss.com/Api/register_customer_with_password";
+      String uri = 'https://ecom.laurelss.com/Api/register_customer_with_password';
 
-      var register = {
-        "name": controllername.text,
-        "phone": controllermobnumber.text,
-        "email": controlleremail.text,
-        "password": controllerpassword.text,
-      };
-
-      final response = await http.post(
-        Uri.parse(uri),
-        body: jsonEncode(register),
+      final Body = jsonEncode(<String, dynamic>{
+        'name': controllername.text,
+        'phone': controllermobnumber.text,
+        'email': controlleremail.text,
+        'password': controllerpassword.text,
+      }
       );
-
-      if (response.statusCode == 200) {
-        print(response.body);
-        final data = jsonDecode(response.body);
-        print(data["status"]);
-        print(data["message"]);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => bottomnavigationcontroll()));
-      } else {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => bottomnavigationcontroll()));
+      final responce = await http.post(Uri.parse(uri), body: Body);
+      if (responce.statusCode == 200) {
+        print(responce.body);
+        final data = jsonDecode(responce.body);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['message'])));
       }
     }
 
@@ -116,7 +102,7 @@ class registerpage extends StatelessWidget {
                 child: MaterialButton(
               color: _Colors.darkblue,
               onPressed: () {
-                pagenav();
+                register();
               },
               child: Padding(
                 padding: Appuicontroll.matirialbuttonpadding,

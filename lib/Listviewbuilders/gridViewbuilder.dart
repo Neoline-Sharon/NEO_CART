@@ -10,7 +10,6 @@ class gridViewbuildercategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hi = MediaQuery.of(context).size.height;
 
     return GridView.builder(
       shrinkWrap: true,

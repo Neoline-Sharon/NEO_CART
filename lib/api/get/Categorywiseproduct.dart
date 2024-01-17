@@ -1,13 +1,13 @@
-import "dart:convert";
-import"package:http/http.dart"as http;
-import 'package:neocart/api/get/modellclass/productdetailmodel.dart';
+import 'dart:convert';
+import 'package:http/http.dart'as http;
+import 'Categorywiseproductmodel.dart';
 
-Future<Productdetailmodel> productDetails() async {
+Future<Categorywiseproductmodel> CatogorywiseproDetails() async {
   try {
     final response = await http.get(Uri.parse("https://ecom.laurelss.com/Api/product_details?product_id=3"));
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body) as Map<String, dynamic>;
-      final data2 = Productdetailmodel.fromJson(data);
+      final data2 = Categorywiseproductmodel.fromJson(data);
       return data2;
     } else {
       print("Failed to fetch product details. Status code: ${response.statusCode}");

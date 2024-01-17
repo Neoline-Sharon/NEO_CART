@@ -20,35 +20,32 @@ class _loginState extends State<login> {
     TextEditingController controllerrmail    = TextEditingController();
     TextEditingController controllerpassword = TextEditingController();
 
-    loginget()async{
-      var num = 0;
-      String uri = "https://ecom.laurelss.com/Api/login_customer_with_password";
-      var log = {
-      "user":controllerrmail.text,
-      "password":controllerpassword.text,
-      };
-      final responce = await http.post(Uri.parse(uri),body: jsonEncode(log));
-      if(responce.statusCode==200){
+    Future<void> login() async {
+      String uri = 'https://ecom.laurelss.com/Api/login_customer_with_password';
+
+      final Body = jsonEncode(<String, dynamic>{
+        'user': controllerrmail.text,
+        'password': controllerpassword.text,
+      }
+      );
+      final responce = await http.post(Uri.parse(uri), body: Body);
+      if (responce.statusCode == 200) {
+        // print(responce.body);
         final data = jsonDecode(responce.body);
-        setState(() {
-          num = data["status"];
-        });
-        if(num==2){
-          Navigator.push(context,MaterialPageRoute(builder: (context)=>bottomnavigationcontroll()));
-        }else{
-          print(responce.body);
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data["data"])));
+        if(data['status']==1){
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['data'])));
           Navigator.push(context,MaterialPageRoute(builder: (context)=>bottomnavigationcontroll()));
         }
+      }else{
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("something goes wrong")));
       }
     }
 
-    pagenav(){
-      Navigator.push(context,MaterialPageRoute(builder: (context)=>bottomnavigationcontroll()));
-    }
+    // pagenav(){
+    //   Navigator.push(context,MaterialPageRoute(builder: (context)=>bottomnavigationcontroll()));
+    // }
+
     Widget space = SizedBox(height: 10,);
-
-
 
     return Padding(
       padding: const EdgeInsets.all(15),
@@ -85,7 +82,7 @@ class _loginState extends State<login> {
             Center(
                 child: MaterialButton(
                   color: _Colors.darkblue,
-                  onPressed: ()=>pagenav(),
+                  onPressed: ()=>login(),
                   child: Padding(
                     padding: Appuicontroll.matirialbuttonpadding,
                     child: Text("Login",style: TextStyle(color: Colors.white)),

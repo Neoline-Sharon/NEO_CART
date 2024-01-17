@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../api/get/product details.dart';
-import '../api/get/productdetailmodel.dart';
+import '../api/get/modellclass/productdetailmodel.dart';
 
 void main() {
   runApp(MaterialApp(
