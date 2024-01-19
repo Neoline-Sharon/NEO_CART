@@ -1,115 +1,162 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:neocart/controller/controller.dart';
 import 'package:neocart/screens/homepage/bottomnavigationcontroll.dart';
 import 'package:http/http.dart' as http;
 
-pagenav(context) {
-  Navigator.push(context,
-      MaterialPageRoute(builder: (context) => bottomnavigationcontroll()));
-}
+pagenav(context) {Navigator.push(context,MaterialPageRoute(builder: (context) => bottomnavigationcontroll()));}
 
 colors _Colors = colors();
 
-class registerpage extends StatelessWidget {
+TextEditingController controllername      = TextEditingController();
+TextEditingController controlleremail     = TextEditingController();
+TextEditingController controllermobnumber = TextEditingController();
+TextEditingController controllerpassword  = TextEditingController();
+
+class registerpage extends StatefulWidget {
   const registerpage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<registerpage> createState() => _registerpageState();
+}
 
-    TextEditingController controllername      = TextEditingController();
-    TextEditingController controlleremail     = TextEditingController();
-    TextEditingController controllermobnumber = TextEditingController();
-    TextEditingController controllerpassword  = TextEditingController();
+class _registerpageState extends State<registerpage> {
+  final _formKey = GlobalKey<FormState>();
+  @override
+  Widget build(BuildContext context) {
 
     Future<void> register() async {
       String uri = 'https://ecom.laurelss.com/Api/register_customer_with_password';
 
-      final Body = jsonEncode(<String, dynamic>{
-        'name': controllername.text,
-        'phone': controllermobnumber.text,
-        'email': controlleremail.text,
+      final Body = {
+        'name':   controllername.text,
+        'phone':  controlleremail.text,
+        'email':  controllermobnumber.text,
         'password': controllerpassword.text,
-      }
-      );
+      };
+
       final responce = await http.post(Uri.parse(uri), body: Body);
       if (responce.statusCode == 200) {
         print(responce.body);
         final data = jsonDecode(responce.body);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['message'])));
+        if(data['status']==1){
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("success")));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => bottomnavigationcontroll()));
+        } else if(data['status']==2){
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Account exits")));
+        }else if(data['status'] == 3){
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("something is missing")));
+        }else{
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['message'])));
+        }
       }
-    }
-
-    pagenav() {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => bottomnavigationcontroll()));
     }
 
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Create an account",
-                style: TextStyle(
-                  fontSize: 20,
-                )),
-            Appuicontroll.space,
-            TextField(
-              controller: controllername,
-              decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(
-                      vertical: Appuicontroll.textfieldheight,
-                      horizontal: Appuicontroll.textfieldwidth),
-                  hintText: "Name",
-                  border: OutlineInputBorder()),
-            ),
-            Appuicontroll.space,
-            TextField(
-              controller: controlleremail,
-              decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(
-                      vertical: Appuicontroll.textfieldheight,
-                      horizontal: Appuicontroll.textfieldwidth),
-                  hintText: "E-mail",
-                  border: OutlineInputBorder()),
-            ),
-            Appuicontroll.space,
-            TextField(
-              controller: controllermobnumber,
-              decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(
-                      vertical: Appuicontroll.textfieldheight,
-                      horizontal: Appuicontroll.textfieldwidth),
-                  hintText: "Mobile number",
-                  border: OutlineInputBorder()),
-            ),
-            Appuicontroll.space,
-            TextField(
-              controller: controllerpassword,
-              obscureText: true,
-              decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(
-                      vertical: Appuicontroll.textfieldheight,
-                      horizontal: Appuicontroll.textfieldwidth),
-                  hintText: "password",
-                  border: OutlineInputBorder()),
-            ),
-            Appuicontroll.space,
-            Center(
-                child: MaterialButton(
-              color: _Colors.darkblue,
-              onPressed: () {
-                register();
-              },
-              child: Padding(
-                padding: Appuicontroll.matirialbuttonpadding,
-                child: Text("Verify", style: TextStyle(color: Colors.white)),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Create an account",
+                  style: TextStyle(
+                    fontSize: 20,
+                  )),
+              Appuicontroll.space,
+              TextFormField(
+                validator: (value){
+                  if(value==null || value.isEmpty){
+                    return "please enter your name";
+                  }else if (value.length < 3) {
+                    return 'Name must be at least three letters';
+                  }
+                },
+                keyboardType: TextInputType.name,
+                autofocus: true,
+                controller: controllername,
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: Appuicontroll.textfieldheight,
+                        horizontal: Appuicontroll.textfieldwidth),
+                    hintText: "Name",
+                    border: OutlineInputBorder()),
               ),
-            )),
-          ],
+              Appuicontroll.space,
+              TextFormField(
+                validator: (value){
+                  if(value==null || value.isEmpty){
+                    return "please enter your email";
+                  }else if (!RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$').hasMatch(value)) {
+                    return 'Please enter a valid email address';
+                  }
+                },
+                keyboardType: TextInputType.emailAddress,
+                autofocus: true,
+                controller: controlleremail,
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: Appuicontroll.textfieldheight,
+                        horizontal: Appuicontroll.textfieldwidth),
+                    hintText: "E-mail",
+                    border: OutlineInputBorder()),
+              ),
+              Appuicontroll.space,
+              TextFormField(
+                validator: (value){
+                  if(value==null || value.isEmpty){
+                    return "please enter your phonenumber";
+                  }else if (!RegExp(r'^[789]\d{9}$').hasMatch(value)) {
+                    return 'Please enter a valid  phone number';
+                  }
+                },
+                keyboardType: TextInputType.phone,
+                autofocus: true,
+                controller: controllermobnumber,
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: Appuicontroll.textfieldheight,
+                        horizontal: Appuicontroll.textfieldwidth),
+                    hintText: "Mobile number",
+                    border: OutlineInputBorder()),
+              ),
+              Appuicontroll.space,
+              TextFormField(
+                validator: (value){
+                  if(value==null || value.isEmpty){
+                    return "please enter your password";
+                  }else if (value.length < 6) {
+                    return 'Password must be at least 8 characters long';
+                  }
+                },
+                keyboardType: TextInputType.text,
+                autofocus: true,
+                controller: controllerpassword,
+                obscureText: true,
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: Appuicontroll.textfieldheight,
+                        horizontal: Appuicontroll.textfieldwidth),
+                    hintText: "password",
+                    border: OutlineInputBorder()),
+              ),
+              Appuicontroll.space,
+              Center(
+                   child: MaterialButton(
+                    color: _Colors.darkblue,
+                      onPressed: () {
+                       if(_formKey.currentState!.validate()){
+                         register();
+                       }
+                     },
+                          child: Padding(
+                           padding: Appuicontroll.matirialbuttonpadding,
+                            child: Text("Verify", style: TextStyle(color: Colors.white)),
+                ),
+              )),
+            ],
+          ),
         ),
       ),
     );
