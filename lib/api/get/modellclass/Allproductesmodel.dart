@@ -1,35 +1,35 @@
 import 'dart:convert';
-/// product_id : "174"
+/// product_id : "645"
 /// category_id : "0"
 /// subcategory_id : "0"
 /// product_unit : ""
-/// product_name : "De Marques Accento"
+/// product_name : "Z-Drum Wireless Speakers"
 /// brand_id : "0"
-/// product_description : "\ncvvzcvbnbvnbmmjhnzm,v</p>\r\n\n\nbvcvbncgbvcvxvvgggdghvgfgcxvcvvc</p>\r\n\n\ndzfxgvhgzfszxvgdzfzfdfnvbvvffgfbvfgfbnvbnvc</p>\r\n\n\nzdxccvzvbbvvbb vbnvgfdz</p>"
-/// product_tags : ""
+/// product_description : "EC62"
+/// product_tags : "1"
 /// refundable : "1"
 /// skucode : ""
 /// barcode : ""
 /// tax_type : "0"
 /// tax_percent : "0"
 /// product_status : "1"
-/// features : ""
+/// features : null
 /// meta_title : ""
 /// meta_description : ""
 /// meta_keywords : ""
 /// meta_image : ""
-/// url_slug : "https://ecom.laurelss.com/premium/de-marques-accento"
-/// url_name : "de-marques-accento"
+/// url_slug : "https://ecom.laurelss.com/speakers/z-drum-wireless-speakers"
+/// url_name : "z-drum-wireless-speakers"
 /// colourss : "0"
 /// product_video : ""
 /// video_type : "0"
 /// video_link : ""
 /// product_pdf : ""
-/// shipping_status : "1"
+/// shipping_status : "0"
 /// quantity_warning : "0"
 /// created_by : "1"
 /// featured_status : "0"
-/// cash_on_delivery : "1"
+/// cash_on_delivery : "0"
 /// todays_deal : "0"
 /// offer_id : null
 /// shipping_time : ""
@@ -43,9 +43,9 @@ import 'dart:convert';
 /// mrp_arabic : ""
 /// selling_price_arabic : ""
 /// quantity_arabic : ""
-/// updated_on : "1698147451"
-/// updated_by : "1"
-/// created_on : "1697643918"
+/// updated_on : ""
+/// updated_by : "0"
+/// created_on : "1706591015"
 /// installation_sts : ""
 /// recommended_age : ""
 /// dimension : ""
@@ -54,28 +54,29 @@ import 'dart:convert';
 /// best_seller : null
 /// on_seller : null
 /// top_products : "0"
-/// stock_id : "1402"
-/// mrp : "9999.000"
-/// selling_price : "4499.000"
-/// quantity : "10"
-/// categoryid : "1"
+/// stock_id : "2220"
+/// mrp : "4999.000"
+/// selling_price : "1799.000"
+/// quantity : "100"
+/// categoryid : "10"
 /// offer_status : null
 /// off_discount_type : null
 /// offer_discount : null
 /// off_start_date : null
 /// off_end_date : null
 /// user_qty : "0"
-/// is_wishlist : "0"
+/// is_wishlist : "1"
 /// cart_details_id : "0"
-/// wishlist_details_id : "0"
-/// order_count : "3"
-/// stockss : [{"stock_id":"1402","product_varient_id":"201","varient_name":"KIDS"},{"stock_id":"1403","product_varient_id":"202","varient_name":"MALE"},{"stock_id":"1404","product_varient_id":"203","varient_name":"FEMALE"},{"stock_id":"1405","product_varient_id":"204","varient_name":"UNISEX"}]
-/// varients : [{"product_varient_id":"201","product_id":"174","varient_id":"3","varient_name":"11","varient_status":"1","created_by":"","created_at":"","updated_on":"","updated_by":"0","material":"0","size":"0","colour":"0","weight":null,"dimensions":null,"color":null,"gender":null,"parent":"GENDER","value":"KIDS"},{"product_varient_id":"202","product_id":"174","varient_id":"3","varient_name":"12","varient_status":"1","created_by":"","created_at":"","updated_on":"","updated_by":"0","material":"0","size":"0","colour":"0","weight":null,"dimensions":null,"color":null,"gender":null,"parent":"GENDER","value":"MALE"},{"product_varient_id":"203","product_id":"174","varient_id":"3","varient_name":"13","varient_status":"1","created_by":"","created_at":"","updated_on":"","updated_by":"0","material":"0","size":"0","colour":"0","weight":null,"dimensions":null,"color":null,"gender":null,"parent":"GENDER","value":"FEMALE"},{"product_varient_id":"204","product_id":"174","varient_id":"3","varient_name":"14","varient_status":"1","created_by":"","created_at":"","updated_on":"","updated_by":"0","material":"0","size":"0","colour":"0","weight":null,"dimensions":null,"color":null,"gender":null,"parent":"GENDER","value":"UNISEX"}]
+/// wishlist_details_id : "140"
+/// order_count : "1"
+/// stockss : [{"stock_id":"2220","product_varient_id":"1019","varient_name":"BLACK"}]
+/// varients : [{"product_varient_id":"1019","product_id":"645","varient_id":"2","varient_name":"3","varient_status":"1","created_by":"","created_at":"","updated_on":"","updated_by":"0","material":"0","size":"0","colour":"0","weight":null,"dimensions":null,"color":null,"gender":null,"parent":"COLOR","value":"BLACK"}]
 /// star_count : 0
-/// product_image : "https://ecom.laurelss.com/uploads/products/Poomeen1.webp"
-/// mrpp : "9999.000"
-/// sellp : "4499.000"
+/// product_image : "https://ecom.laurelss.com/uploads/products/Z_Drum_Wireless_Speakers01.webp"
+/// mrpp : "4999.000"
+/// sellp : "1799.000"
 /// isproductcliked : false
+/// percentage : "65%"
 
 Allproductesmodel allproductesmodelFromJson(String str) => Allproductesmodel.fromJson(json.decode(str));
 String allproductesmodelToJson(Allproductesmodel data) => json.encode(data.toJson());
@@ -95,7 +96,7 @@ class Allproductesmodel {
       String? taxType, 
       String? taxPercent, 
       String? productStatus, 
-      String? features, 
+      dynamic features, 
       String? metaTitle, 
       String? metaDescription, 
       String? metaKeywords, 
@@ -157,7 +158,8 @@ class Allproductesmodel {
       String? productImage, 
       String? mrpp, 
       String? sellp, 
-      bool? isproductcliked,}){
+      bool? isproductcliked, 
+      String? percentage,}){
     _productId = productId;
     _categoryId = categoryId;
     _subcategoryId = subcategoryId;
@@ -235,6 +237,7 @@ class Allproductesmodel {
     _mrpp = mrpp;
     _sellp = sellp;
     _isproductcliked = isproductcliked;
+    _percentage = percentage;
 }
 
   Allproductesmodel.fromJson(dynamic json) {
@@ -325,6 +328,7 @@ class Allproductesmodel {
     _mrpp = json['mrpp'];
     _sellp = json['sellp'];
     _isproductcliked = json['isproductcliked'];
+    _percentage = json['percentage'];
   }
   String? _productId;
   String? _categoryId;
@@ -340,7 +344,7 @@ class Allproductesmodel {
   String? _taxType;
   String? _taxPercent;
   String? _productStatus;
-  String? _features;
+  dynamic _features;
   String? _metaTitle;
   String? _metaDescription;
   String? _metaKeywords;
@@ -403,6 +407,7 @@ class Allproductesmodel {
   String? _mrpp;
   String? _sellp;
   bool? _isproductcliked;
+  String? _percentage;
 Allproductesmodel copyWith({  String? productId,
   String? categoryId,
   String? subcategoryId,
@@ -417,7 +422,7 @@ Allproductesmodel copyWith({  String? productId,
   String? taxType,
   String? taxPercent,
   String? productStatus,
-  String? features,
+  dynamic features,
   String? metaTitle,
   String? metaDescription,
   String? metaKeywords,
@@ -480,6 +485,7 @@ Allproductesmodel copyWith({  String? productId,
   String? mrpp,
   String? sellp,
   bool? isproductcliked,
+  String? percentage,
 }) => Allproductesmodel(  productId: productId ?? _productId,
   categoryId: categoryId ?? _categoryId,
   subcategoryId: subcategoryId ?? _subcategoryId,
@@ -557,6 +563,7 @@ Allproductesmodel copyWith({  String? productId,
   mrpp: mrpp ?? _mrpp,
   sellp: sellp ?? _sellp,
   isproductcliked: isproductcliked ?? _isproductcliked,
+  percentage: percentage ?? _percentage,
 );
   String? get productId => _productId;
   String? get categoryId => _categoryId;
@@ -572,7 +579,7 @@ Allproductesmodel copyWith({  String? productId,
   String? get taxType => _taxType;
   String? get taxPercent => _taxPercent;
   String? get productStatus => _productStatus;
-  String? get features => _features;
+  dynamic get features => _features;
   String? get metaTitle => _metaTitle;
   String? get metaDescription => _metaDescription;
   String? get metaKeywords => _metaKeywords;
@@ -635,6 +642,7 @@ Allproductesmodel copyWith({  String? productId,
   String? get mrpp => _mrpp;
   String? get sellp => _sellp;
   bool? get isproductcliked => _isproductcliked;
+  String? get percentage => _percentage;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -719,15 +727,16 @@ Allproductesmodel copyWith({  String? productId,
     map['mrpp'] = _mrpp;
     map['sellp'] = _sellp;
     map['isproductcliked'] = _isproductcliked;
+    map['percentage'] = _percentage;
     return map;
   }
 
 }
 
-/// product_varient_id : "201"
-/// product_id : "174"
-/// varient_id : "3"
-/// varient_name : "11"
+/// product_varient_id : "1019"
+/// product_id : "645"
+/// varient_id : "2"
+/// varient_name : "3"
 /// varient_status : "1"
 /// created_by : ""
 /// created_at : ""
@@ -740,8 +749,8 @@ Allproductesmodel copyWith({  String? productId,
 /// dimensions : null
 /// color : null
 /// gender : null
-/// parent : "GENDER"
-/// value : "KIDS"
+/// parent : "COLOR"
+/// value : "BLACK"
 
 Varients varientsFromJson(String str) => Varients.fromJson(json.decode(str));
 String varientsToJson(Varients data) => json.encode(data.toJson());
@@ -904,9 +913,9 @@ Varients copyWith({  String? productVarientId,
 
 }
 
-/// stock_id : "1402"
-/// product_varient_id : "201"
-/// varient_name : "KIDS"
+/// stock_id : "2220"
+/// product_varient_id : "1019"
+/// varient_name : "BLACK"
 
 Stockss stockssFromJson(String str) => Stockss.fromJson(json.decode(str));
 String stockssToJson(Stockss data) => json.encode(data.toJson());

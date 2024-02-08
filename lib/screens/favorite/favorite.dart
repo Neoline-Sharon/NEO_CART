@@ -1,173 +1,216 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:http/http.dart'as http;
+import '../homepage/prductpage.dart';
+import 'Favoratemodel.dart';
+import 'favoritefunction.dart';
 
-import '../../Listviewbuilders/gridViewbuilder.dart';
+final _myBox = Hive.box('sign_in');
+final customerid = _myBox.get(3);
 
-Widget space = SizedBox(height: 10,);
+// void main(){
+//   runApp(MaterialApp(
+//     home: MaterialApp(
+//       home: favorite(),
+//     ),
+//   ));
+// }
 
-BoxBorder border = Border.all(strokeAlign: 1, width: 0.5);
+List<Favoratemodel>Favoratelist = [];
 
-class favorite extends StatelessWidget {
+Future<List<Favoratemodel>>favoradefunction() async {
+
+  String uri = 'https://ecom.laurelss.com/Api/my_wishlist?customer_id=${customerid}';
+
+  final responce = await http.post(Uri.parse(uri));
+  if (responce.statusCode == 200) {
+    final data = jsonDecode(responce.body);
+    Favoratelist.clear();
+    if(Favoratelist.isEmpty){
+      for(Map i in data['wishlist'][0]['details']){
+        Favoratelist.add(Favoratemodel.fromJson(i));
+      }
+    }
+    return Favoratelist;
+  }else{
+    throw Exception('Failed to load data');
+  }
+}
+
+
+
+class favorite extends StatefulWidget {
   const favorite({super.key});
 
   @override
+  State<favorite> createState() => _favoriteState();
+}
+
+class _favoriteState extends State<favorite> {
+  @override
   Widget build(BuildContext context) {
+
+
+    Widget space2 = SizedBox(
+      height: 10,
+    );
+
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.card_travel_sharp,color: Colors.black,))
-        ],
-        automaticallyImplyLeading: false,
+        title: Text("favorites",style: TextStyle(color: Colors.black)),
+        elevation: 0,
         backgroundColor: Colors.white,
-        title: Text("Wishlist",style: TextStyle(color: Colors.black)),
+        iconTheme: IconThemeData(color: Colors.black),
       ),
-      body: ListView(
-        shrinkWrap: true,
-        children: [
-          SizedBox(height: 10,),
-          GridView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: 3,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, childAspectRatio: 1 / 1.8),
-            itemBuilder: (BuildContext context, int index) {
-              return Padding(
-                padding: const EdgeInsets.only(right: 8,bottom: 0,left: 8.0,top: 8.0),
-                child: Container(
-                  height: 200,
-                  decoration: BoxDecoration(
-                      border: border,
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  child: Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          child: Align(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(Icons.favorite,color: Colors.red),
-                              ),
-                              alignment: Alignment.topRight),
-                          decoration: BoxDecoration(
-                              border: border,
-                              image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: AssetImage(bag[index])),
-                              borderRadius: BorderRadius.circular(10)),
-                          height: 120,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
+      body:  Padding(
+        padding: const EdgeInsets.all(15),
+        child: FutureBuilder(
+          future: favoradefunction(),
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            return snapshot.data==null? Center(child: CircularProgressIndicator(),): GridView.builder(
+              // physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: Favoratelist.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1 / 1.5),
+              itemBuilder: (BuildContext context, int index) {
+                return Padding(
+                  padding: const EdgeInsets.all(4.5),
+                  child: Container(
+                    width: 159,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Color(0xffE5E2E2),width: 1)
+                    ),
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(9),
                           child: Container(
+                            child: GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>productpage(num: index,)));
+                                },
+                                child: Image(image: NetworkImage(Favoratelist[index].productImage.toString()))),
+                            height: 120,
                             width: double.infinity,
-                            height: 150,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: Color(0xffE5E2E2),width: 1)
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment:Alignment.bottomCenter,
+                          child: Padding(
+                            padding: const EdgeInsets.all(9),
                             child: Column(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text("Nike", style: TextStyle(fontSize: 20)),
-                                Text(
-                                  "man logo printed backpack",
-                                  style: TextStyle(fontSize: 10),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5))),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(3),
-                                    child: Text("4.8 | 5",
-                                        style: TextStyle(fontSize: 10)),
-                                  ),
-                                ),
+                                Text(Favoratelist[index].productName.toString(),style: TextStyle(fontSize: 15),maxLines: 1,overflow: TextOverflow.ellipsis,),
+                                space2,
                                 Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      "2,200",
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                    Text(
-                                      "5,000",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          decoration:
-                                          TextDecoration.lineThrough),
-                                    ),
+                                    Text('\u{20B9} ' + Favoratelist[index].itemOfferPrice.toString(), style: TextStyle(fontSize: 11,fontWeight: FontWeight.bold,)),
+                                    SizedBox(width: 9,),
+                                    Text( '\u{20B9} ' + Favoratelist[index].sellingPrice.toString(),style: TextStyle(decoration: TextDecoration.lineThrough,fontSize: 11,fontWeight: FontWeight.bold,color: Color(
+                                        0xffadadad)),)
                                   ],
                                 ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: border,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5))),
-                                  child: Padding(padding: const EdgeInsets.only(left: 5, right: 5),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text("Green"),
-                                        Icon(Icons.arrow_drop_down)
-                                      ],
-                                    ),
-                                  ),
+                                space2,
+                                // Container(
+                                //     decoration: BoxDecoration(
+                                //         borderRadius: BorderRadius.circular(4),
+                                //         border: Border.all(width: 1,color: Color(0xffE5E2E2))
+                                //     ),
+                                //     width: double.infinity,
+                                //     height: 22,
+                                //     child: Padding(
+                                //       padding: const EdgeInsets.only(right: 8,left: 8),
+                                //       child: Row(
+                                //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Text(Favoratelist[index].productId.toString(),style: TextStyle(fontSize: 11,fontWeight: FontWeight.bold),),
+                                //           Icon(Icons.arrow_drop_down)
+                                //         ],
+                                //       ),
+                                //     )
+                                // ),
+                                space2,
+                                GestureDetector(
+                                  onTap: (){
+                                    setState(() {
+                                      removewishlist(customerid,Favoratelist[index].wishlistDetailsId.toString(),context);
+                                      Favoratelist.removeAt(index);
+                                    }
+                                    );
+                                  },
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.circular(4),
+                                          border: Border.all(
+                                              width: 1,
+                                              color: Color(0xff69ea19))),
+                                      width: double.infinity,
+                                      // height: 40,
+                                      child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 10,
+                                              bottom: 10,
+                                              right: 8, left: 8),
+                                          child: Center(
+                                            child: Text(
+                                                // Favoratelist[index].stockId.toString(),
+                                                "Remove From  Wishlist",
+                                                style: TextStyle(
+                                                    fontSize: 11,
+                                                    color:
+                                                    Color(0xff69ea19))),
+                                          ))),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(1),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          border: border,
-                                          borderRadius: BorderRadius.circular(8)
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(5),
-                                          child: Icon(Icons.delete),
-                                        ),
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            border: border,
-                                            borderRadius: BorderRadius.circular(8)
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(5),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Icon(Icons.shopping_cart_sharp),
-                                              Text("Add to Bag")
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
                               ],
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                        // Align(
+                        //   alignment: Alignment.topRight,
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.all(15),
+                        //     child: GestureDetector(
+                        //         onTap: (){
+                        //           // if(like[index]==true){
+                        //           //   addwishlist(
+                        //           //       Allproducteslist[index].stockId.toString(),
+                        //           //       Allproducteslist[index].mrp.toString(),
+                        //           //       Allproducteslist[index].sellingPrice.toString(),
+                        //           //       "64"
+                        //           //   );
+                        //           //   setState(() {
+                        //           //     like[index]=!like[index];
+                        //           //   });
+                        //           // }else{
+                        //           //   removewishlist("64",Allproducteslist[index].stockId.toString(),);
+                        //           //   setState(() {
+                        //           //     like[index]=!like[index];
+                        //           //   }
+                        //           //   );
+                        //           // }
+                        //         },
+                        //         // child: Icon(Icons.favorite,color: like[index]?  Colors.black : Colors.red,)),
+                        //   ),
+                        // )
+                        // )
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
-        ],
-      )
+                );
+              },
+            );
+          },
+        ),
+      ),
     );
   }
 }

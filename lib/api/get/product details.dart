@@ -1,6 +1,7 @@
 import "dart:convert";
 import"package:http/http.dart"as http;
-import 'package:neocart/api/get/modellclass/productdetailmodel.dart';
+
+import "modellclass/Productdetailmodel.dart";
 
 Future<Productdetailmodel> productDetails() async {
   try {

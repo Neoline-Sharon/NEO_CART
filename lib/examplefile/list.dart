@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:neocart/screens/homepage/hoomepage.dart';
-import 'package:neocart/screens/myaccound/MYaccount.dart';
-import 'package:neocart/screens/cart/cart.dart';
-import 'package:neocart/screens/favorite/favorite.dart';
-import 'package:neocart/screens/shope/shop.dart';
 
 List icons = [
   Icon(Icons.confirmation_number_sharp),
@@ -54,7 +49,7 @@ List product = [
 
 List listtile = [
   "Orders",
-  "Custome Care",
+  "Review",
   "Adderss",
   "Notification",
   "Terms & Condition",
@@ -95,6 +90,7 @@ List Backpack = [
   "Wildecraft",
   "Woodland",
 ];
+
 List Goggles = [
   "Brohiha",
   "Ledge eyewear",
@@ -143,4 +139,4 @@ List Combo = [
 ];
 
 
-List<dynamic> pages = [hoomepage(), shop(), favorite(), cart(), myaccount()];
+

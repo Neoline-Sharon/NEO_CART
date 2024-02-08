@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:neocart/controller/controller.dart';
 import 'package:neocart/loginpages/login.dart';
 import 'package:neocart/loginpages/registerpage.dart';
 
-import '../api/get/product details.dart';
 
-colors _colors = colors();
 
 class loginpage extends StatefulWidget {
   const loginpage({super.key});
@@ -15,12 +12,6 @@ class loginpage extends StatefulWidget {
 }
 
 class _loginpageState extends State<loginpage> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    productDetails();
-  }
   @override
   Widget build(BuildContext context) {
     final hi = MediaQuery.of(context).size.height;

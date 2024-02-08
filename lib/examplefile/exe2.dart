@@ -1,65 +1,35 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
+class Cat extends StatefulWidget {
+  const Cat({Key? key}) : super(key: key);
+
+  @override
+  State<Cat> createState() => _CatState();
 }
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  final FocusNode _focusNode = FocusNode();
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Add a listener to the FocusNode to detect focus changes
-    _focusNode.addListener(() {
-      if (_focusNode.hasFocus) {
-        print('TextField is activated');
-      } else {
-        print('TextField is deactivated');
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    // Dispose of the FocusNode when it's no longer needed
-    _focusNode.dispose();
-    super.dispose();
-  }
+class _CatState extends State<Cat> {
+  int num = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('TextField Activation Example'),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            num++;
+          });
+        },
+        child: Icon(Icons.add),
       ),
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: TextField(
-            focusNode: _focusNode,
-            decoration: InputDecoration(
-              labelText: 'Enter text',
-              hintText: 'Type something',
-            ),
-          ),
-        ),
+        child: Text(num.toString()),
       ),
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: Cat(),
+  ));
 }
