@@ -46,7 +46,9 @@ class _registerpageState extends State<registerpage> {
           _myBox.put(1, controlleremail.text.toString());
           _myBox.put(3, data['id']);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['data'])));
+
           Navigator.push(context, MaterialPageRoute(builder: (context) => bottomnavigationcontroll()));
+
         } else if(data['status']==2){
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['data'])));
         }else if(data['status'] == 3){

@@ -248,9 +248,7 @@ class _hoomepageState extends State<hoomepage> {
                     space2,
                     carouselSlider(),
                     space2,
-                    Text("Category",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold)),
+                    Text("Category", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                     space2,
                     Category(),
                     space2,

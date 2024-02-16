@@ -182,15 +182,27 @@ class _productsState extends State<products> {
                                         Text(
                                           '\u{20B9} ' +
                                               Allproducteslist[index]
-                                                  .mrpp
+                                                  .productId
                                                   .toString(),
                                           style: TextStyle(
                                               decoration:
-                                                  TextDecoration.lineThrough,
+                                              TextDecoration.lineThrough,
                                               fontSize: 11,
                                               fontWeight: FontWeight.bold,
                                               color: Color(0xffadadad)),
                                         )
+                                        // Text(
+                                        //   '\u{20B9} ' +
+                                        //       Allproducteslist[index]
+                                        //           .mrpp
+                                        //           .toString(),
+                                        //   style: TextStyle(
+                                        //       decoration:
+                                        //           TextDecoration.lineThrough,
+                                        //       fontSize: 11,
+                                        //       fontWeight: FontWeight.bold,
+                                        //       color: Color(0xffadadad)),
+                                        // )
                                       ],
                                     ),
                                     // space2,

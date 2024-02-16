@@ -39,11 +39,13 @@ final _myBox = Hive.box('sign_in');
       _myBox.put(3, data['customer_id'].toString());
       _myBox.put(1, controllerrmail.text.toString());
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['data'])));
+
       Navigator.push(context, MaterialPageRoute(builder: (context) => bottomnavigationcontroll()));
+
     }  else if (data['status'] == 2) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['data'])));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("erorr")));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("data")));
     }
   }else{
     throw("error");

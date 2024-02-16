@@ -1,5 +1,5 @@
 import 'dart:convert';
-/// product_id : "645"
+/// product_id : "748"
 /// category_id : "0"
 /// subcategory_id : "0"
 /// product_unit : ""
@@ -45,7 +45,7 @@ import 'dart:convert';
 /// quantity_arabic : ""
 /// updated_on : ""
 /// updated_by : "0"
-/// created_on : "1706591015"
+/// created_on : "1707454126"
 /// installation_sts : ""
 /// recommended_age : ""
 /// dimension : ""
@@ -54,7 +54,7 @@ import 'dart:convert';
 /// best_seller : null
 /// on_seller : null
 /// top_products : "0"
-/// stock_id : "2220"
+/// stock_id : "2351"
 /// mrp : "4999.000"
 /// selling_price : "1799.000"
 /// quantity : "100"
@@ -65,12 +65,12 @@ import 'dart:convert';
 /// off_start_date : null
 /// off_end_date : null
 /// user_qty : "0"
-/// is_wishlist : "1"
+/// is_wishlist : "0"
 /// cart_details_id : "0"
-/// wishlist_details_id : "140"
-/// order_count : "1"
-/// stockss : [{"stock_id":"2220","product_varient_id":"1019","varient_name":"BLACK"}]
-/// varients : [{"product_varient_id":"1019","product_id":"645","varient_id":"2","varient_name":"3","varient_status":"1","created_by":"","created_at":"","updated_on":"","updated_by":"0","material":"0","size":"0","colour":"0","weight":null,"dimensions":null,"color":null,"gender":null,"parent":"COLOR","value":"BLACK"}]
+/// wishlist_details_id : "0"
+/// order_count : "0"
+/// stockss : [{"stock_id":"2351","product_varient_id":"1150","varient_name":"BLACK"}]
+/// varients : [{"product_varient_id":"1150","product_id":"748","varient_id":"2","varient_name":"3","varient_status":"1","created_by":"","created_at":"","updated_on":"","updated_by":"0","material":"0","size":"0","colour":"0","weight":null,"dimensions":null,"color":null,"gender":null,"parent":"COLOR","value":"BLACK"}]
 /// star_count : 0
 /// product_image : "https://ecom.laurelss.com/uploads/products/Z_Drum_Wireless_Speakers01.webp"
 /// mrpp : "4999.000"
@@ -733,8 +733,8 @@ Allproductesmodel copyWith({  String? productId,
 
 }
 
-/// product_varient_id : "1019"
-/// product_id : "645"
+/// product_varient_id : "1150"
+/// product_id : "748"
 /// varient_id : "2"
 /// varient_name : "3"
 /// varient_status : "1"
@@ -913,8 +913,8 @@ Varients copyWith({  String? productVarientId,
 
 }
 
-/// stock_id : "2220"
-/// product_varient_id : "1019"
+/// stock_id : "2351"
+/// product_varient_id : "1150"
 /// varient_name : "BLACK"
 
 Stockss stockssFromJson(String str) => Stockss.fromJson(json.decode(str));

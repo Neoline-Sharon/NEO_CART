@@ -119,10 +119,12 @@ List Earbuds = [
   "Skull candy",
   "Sound peats",
 ];
+
 List Speaker = [
   "jbl",
   'Skull candy',
 ];
+
 List Walllet = [
   "Beast Wally",
   "Hide theory",
@@ -130,6 +132,7 @@ List Walllet = [
   "Urban forest",
   "WildHorn",
 ];
+
 List Combo = [
   "premimume watch",
   "Bluetooth speker",

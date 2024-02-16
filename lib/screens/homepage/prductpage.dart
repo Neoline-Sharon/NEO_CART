@@ -2,42 +2,44 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../../api/get/apiallproductes.dart';
+import '../../api/get/modellclass/reviews.dart';
 import '../shope/shop.dart';
 import 'Products.dart';
-import 'package:http/http.dart'as http;
+import 'package:http/http.dart' as http;
 import 'bottomnavigationcontroll.dart';
-
 
 final _myBox = Hive.box('sign_in');
 String customerid = _myBox.get(3).toString();
 
-
-
-Future addtocart(String customerid, String stockid,String price , String offerprice,context)async{
-
+Future addtocart(String customerid, String stockid, String price,
+    String offerprice, context) async {
   final body = {
     "customer_id": customerid,
-    "stock_id":stockid,
+    "stock_id": stockid,
     "price": price,
     "offer_price": offerprice,
-    "nos":"1",
-    "buystatus":"0",
+    "nos": "1",
+    "buystatus": "0",
   };
 
-  final responce = await http.post(Uri.parse("https://ecom.laurelss.com/Api/add_to_cart"),body: body);
-  if(responce.statusCode==200){
+  final responce = await http
+      .post(Uri.parse("https://ecom.laurelss.com/Api/add_to_cart"), body: body);
+  if (responce.statusCode == 200) {
     final data = jsonDecode(responce.body);
-    if(data["status"]==1){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data["data"].toString())));
-    }else{
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("error")));
+    if (data["status"] == 1) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(data["data"].toString())));
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("error")));
     }
-  }else{
+  } else {
     print("error");
   }
 }
 
-void buynow(customerid,String stockid, String price, String offerprice,int nos,context) async {
+void buynow(customerid, String stockid, String price, String offerprice,
+    int nos, context) async {
   String uri = 'https://ecom.laurelss.com/Api/add_to_cart';
 
   final Body = {
@@ -45,8 +47,8 @@ void buynow(customerid,String stockid, String price, String offerprice,int nos,c
     'stock_id': stockid,
     'price': price,
     'offer_price': offerprice,
-    'nos' : nos.toString(),
-    'buystatus':"1",
+    'nos': nos.toString(),
+    'buystatus': "1",
   };
 
   final responce = await http.post(Uri.parse(uri), body: Body);
@@ -54,22 +56,24 @@ void buynow(customerid,String stockid, String price, String offerprice,int nos,c
   if (responce.statusCode == 200) {
     print(responce.body);
     final data = jsonDecode(responce.body);
-    if(data['status']==0){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['data'])));
-    }else if(data['status']==1){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['data'])));
+    if (data['status'] == 0) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(data['data'])));
+    } else if (data['status'] == 1) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(data['data'])));
     }
   }
 }
 
-void placeorder(paymentmethod,context) async {
+void placeorder(paymentmethod, context) async {
   String uri = 'https://ecom.laurelss.com/Api/place_order';
 
   final Body = {
     'payment_method': paymentmethod,
     'customer_id': customerid,
     'delivery_charge': "0",
-    'buy_status' : '0',
+    'buy_status': '0',
   };
 
   final responce = await http.post(Uri.parse(uri), body: Body);
@@ -77,41 +81,40 @@ void placeorder(paymentmethod,context) async {
   if (responce.statusCode == 200) {
     print(responce.body);
     final data = jsonDecode(responce.body);
-    if(data['status']==0){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['data'])));
-    }else if(data['status']==1){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['data'])));
+    if (data['status'] == 0) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(data['data'])));
+    } else if (data['status'] == 1) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(data['data'])));
     }
   }
 }
 
-
-
-
 class productpage extends StatefulWidget {
   final int? num;
-  const productpage({super.key, required this.num});
 
+  const productpage({super.key, required this.num});
 
   @override
   State<productpage> createState() => _productpageState();
 }
 
 class _productpageState extends State<productpage> {
-
   int count = 1;
 
   @override
   Widget build(BuildContext context) {
-
-    Widget hi = SizedBox(height: 12,);
+    Widget hi = SizedBox(
+      height: 12,
+    );
 
     TextStyle TextStyle12 = TextStyle(fontSize: 12);
 
     return Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -120,31 +123,19 @@ class _productpageState extends State<productpage> {
                   MaterialButton(
                     height: 44,
                     minWidth: 56,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
                     color: Color(0xffD9D9D9),
                     // Color(0xff434343)
-                    onPressed: (){
+                    onPressed: () {
                       setState(() {
-                        if(count<=1){
-                          count=count+1;
+                        if (count <= 1) {
+                          count = count + 1;
                         }
-                        count=count-1;
-                      }
-                      );
+                        count = count - 1;
+                      });
                     },
-                    child: Icon(Icons.remove,color: Color(0xff434343)),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  MaterialButton(
-                    height: 44,
-                    minWidth: 56,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                    color: Color(0xffD9D9D9),
-                    // Color(0xff434343)
-                    onPressed: (){},
-                    child: Text(count.toString())
+                    child: Icon(Icons.remove, color: Color(0xff434343)),
                   ),
                   SizedBox(
                     width: 5,
@@ -152,17 +143,29 @@ class _productpageState extends State<productpage> {
                   MaterialButton(
                       height: 44,
                       minWidth: 56,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
                       color: Color(0xffD9D9D9),
                       // Color(0xff434343)
-                      onPressed: (){
+                      onPressed: () {},
+                      child: Text(count.toString())),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  MaterialButton(
+                      height: 44,
+                      minWidth: 56,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                      color: Color(0xffD9D9D9),
+                      // Color(0xff434343)
+                      onPressed: () {
                         print(count.toString());
                         setState(() {
-                          count= count+1;
+                          count = count + 1;
                         });
                       },
-                      child: Icon(Icons.add,color: Color(0xff434343))
-                  ),
+                      child: Icon(Icons.add, color: Color(0xff434343))),
                 ],
               ),
               // MaterialButton(
@@ -184,22 +187,39 @@ class _productpageState extends State<productpage> {
               MaterialButton(
                 height: 44,
                 minWidth: 56,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
                 color: Colors.black,
-                onPressed: ()async{
-                  buynow(customerid,Allproducteslist[widget.num!].stockId.toString(),Allproducteslist[widget.num!].mrpp.toString(),Allproducteslist[widget.num!].sellingPrice.toString(),count,context);
+                onPressed: () async {
+                  buynow(
+                      customerid,
+                      Allproducteslist[widget.num!].stockId.toString(),
+                      Allproducteslist[widget.num!].mrpp.toString(),
+                      Allproducteslist[widget.num!].sellingPrice.toString(),
+                      count,
+                      context);
                   catocoryfunction();
-                  await Future.delayed(Duration(seconds: 3),(){
-                    Navigator.push(context,MaterialPageRoute(builder: (context)=>bottomnavigationcontroll(num: true,)));
+                  await Future.delayed(Duration(seconds: 3), () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => bottomnavigationcontroll(
+                                  num: true,
+                                )));
                   });
                 },
                 child: Row(
-                 children: [
-                   Icon(Icons.monetization_on,color: Colors.white),
-                   SizedBox(width: 21,),
-                   Text("Buy  Now",style: TextStyle(fontSize: 16,color: Colors.white),)
-                ],
-              ),
+                  children: [
+                    Icon(Icons.monetization_on, color: Colors.white),
+                    SizedBox(
+                      width: 21,
+                    ),
+                    Text(
+                      "Buy  Now",
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    )
+                  ],
+                ),
               ),
             ],
           ),
@@ -243,19 +263,25 @@ class _productpageState extends State<productpage> {
                                 border: Border.all(width: 0.5),
                                 borderRadius: BorderRadius.circular(10),
                                 image: DecorationImage(
-                                    image: NetworkImage(Allproducteslist[widget.num!].productImage.toString()))),
+                                    image: NetworkImage(
+                                        Allproducteslist[widget.num!]
+                                            .productImage
+                                            .toString()))),
                             height: 227,
                             width: 328,
                           ),
                         ),
                         hi,
-                        Text(Allproducteslist[widget.num!].productName.toString(),
-                          style: TextStyle(fontSize: 20, color: Color(0xff555454)),
+                        Text(
+                          Allproducteslist[widget.num!].productName.toString(),
+                          style:
+                              TextStyle(fontSize: 20, color: Color(0xff555454)),
                         ),
                         hi,
                         Text(
                           Allproducteslist[widget.num!].urlName.toString(),
-                          style: TextStyle(fontSize: 14, color: Color(0xff555454)),
+                          style:
+                              TextStyle(fontSize: 14, color: Color(0xff555454)),
                         ),
                         hi,
                         Container(
@@ -273,7 +299,9 @@ class _productpageState extends State<productpage> {
                         Row(
                           children: [
                             Text(
-                              Allproducteslist[widget.num!].sellingPrice.toString(),
+                              Allproducteslist[widget.num!]
+                                  .sellingPrice
+                                  .toString(),
                               style: TextStyle(fontSize: 14),
                             ),
                             SizedBox(
@@ -290,7 +318,8 @@ class _productpageState extends State<productpage> {
                         ),
                         Text(
                           "Price inclusive of all taxes.",
-                          style: TextStyle(fontSize: 10, color: Color(0xff555454)),
+                          style:
+                              TextStyle(fontSize: 10, color: Color(0xff555454)),
                         ),
                         hi,
                       ],
@@ -370,7 +399,12 @@ class _productpageState extends State<productpage> {
                             style: TextStyle(
                                 fontSize: 13, fontWeight: FontWeight.bold)),
                         hi,
-                        Text(Allproducteslist[widget.num!].productDescription.toString(),style: TextStyle12,),
+                        Text(
+                          Allproducteslist[widget.num!]
+                              .productDescription
+                              .toString(),
+                          style: TextStyle12,
+                        ),
                       ],
                     ),
                   ),
@@ -379,7 +413,7 @@ class _productpageState extends State<productpage> {
                     color: Color(0xffA8A5A5),
                     thickness: 8,
                   ),
-                  // hi,
+                  hi,
                   // Padding(
                   //   padding: const EdgeInsets.symmetric(horizontal: 30),
                   //   child: Column(
@@ -438,73 +472,170 @@ class _productpageState extends State<productpage> {
                   //     ],
                   //   ),
                   // ),
-                  // hi,
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 33),
-                  //   child: Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     mainAxisAlignment: MainAxisAlignment.start,
-                  //     children: [
-                  //       Text("Customer Reviews",style: TextStyle(fontSize: 13,fontWeight: FontWeight.bold),),
-                  //       hi,
-                  //       Row(
-                  //         children: [
-                  //           CircleAvatar(radius: 28,),
-                  //           SizedBox(width: 16,),
-                  //           Column(
-                  //             crossAxisAlignment: CrossAxisAlignment.start,
-                  //             children: [
-                  //               Text("Roshan",style: TextStyle(fontSize: 13,fontWeight: FontWeight.bold),),
-                  //               SizedBox(height: 8,),
-                  //               Icon(Icons.star,size: 15),
-                  //               SizedBox(height: 8,),
-                  //               Text("I have used products for Mokobara earlier as\n well and all of them have superior quality.\nThis backpack exceeds my expectations\nwith quality, utility and styling.",style: TextStyle9,)
-                  //             ],
-                  //           )
-                  //         ],
-                  //       ),
-                  //       hi,
-                  //       Row(
-                  //         children: [
-                  //           CircleAvatar(radius: 28,),
-                  //           SizedBox(width: 16,),
-                  //           Column(
-                  //             crossAxisAlignment: CrossAxisAlignment.start,
-                  //             children: [
-                  //               Text("Sharon",style: TextStyle(fontSize: 13,fontWeight: FontWeight.bold),),
-                  //               SizedBox(height: 8,),
-                  //               Icon(Icons.star,size: 15),
-                  //               SizedBox(height: 8,),
-                  //               Text("I have used products for Mokobara earlier as\n well and all of them have superior quality.\nThis backpack exceeds my expectations\nwith quality, utility and styling.",style: TextStyle9,)
-                  //             ],
-                  //           )
-                  //         ],
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                  // hi,
-                  // Divider(
-                  //   color: Color(0xffA8A5A5),
-                  //   thickness: 8,
-                  // ),
+                  hi,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 33),
+                    child: Text(
+                      "Customer Reviews",
+                      style:
+                          TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  hi,
+                  StreamBuilder(
+                    stream: Reviewfun(Allproducteslist[widget.num!].productId.toString(),),
+                    builder: (BuildContext context,AsyncSnapshot<dynamic> snapshot) {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: reviewlist.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 33),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                hi,
+                                SizedBox(width: 16,),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(reviewlist[index].name.toString(),style: TextStyle(fontSize: 13,fontWeight: FontWeight.bold),),
+                                    SizedBox(height: 8,),
+                                    Row(
+                                      children: [
+                                        for(int i = 0; i<int.parse(reviewlist[index].rating.toString());i++ )
+                                          Icon(Icons.star,size: 15),
+                                      ],
+                                    ),
+                                    SizedBox(height: 8,),
+                                    Text(reviewlist[index].review.toString(),)
+                                  ],
+                                ),
+                                hi,
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  hi,
+                  Divider(
+                    color: Color(0xffA8A5A5),
+                    thickness: 8,
+                  ),
+                  // Allproducteslist[widget.num!].starCount==0? Text("") :
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 33),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        hi,
+                        Text(
+                          "Write a Reviews",
+                          style:
+                          TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                        ),
+                        hi,
+                        TextField(
+                          controller: controllername,
+                          decoration: InputDecoration(
+                            hintText: "Enter your name",
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                        hi,
+                        TextField(
+                          controller: controllerreviews,
+                          maxLines: 5,
+                          maxLength: 150,
+                          decoration: InputDecoration(
+                            hintText: "How is Your product? What do you like? What do you hata?",
+                            border: OutlineInputBorder()
+                          ),
+                        ),
+                        TextButton(
+                            onPressed: (){
+                              writereviews(Allproducteslist[widget.num!].productId,controllername.text,controllerreviews.text,context);
+                            },
+                            child: Text("Publish your Review"))
+                      ],
+                    ),
+                  ),
+                  hi,
+                  Divider(
+                    color: Color(0xffA8A5A5),
+                    thickness: 8,
+                  ),
+                  hi,
                   products(),
-                  SizedBox(height: 70,)
+                  SizedBox(
+                    height: 70,
+                  )
                 ],
               );
             },
           ),
-        )
-    );
+        ));
   }
 }
+
+TextEditingController controllerreviews = TextEditingController();
+TextEditingController controllername = TextEditingController();
+
+writereviews(productid,name,review,context)async{
+  final responce = await http.post(Uri.parse('https://ecom.laurelss.com/Api/rating'),
+      body: {
+        'product_id':productid,
+        'customer_id': customerid,
+        'rating':rating,
+        'name': name,
+        'review': review,
+      }
+  );
+  if(responce.statusCode==200){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responce.body.toString())));
+  }else{
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("error")));
+  }
+}
+
+
+
+List<Reviewss>reviewlist = [];
+
+Stream<List<Reviewss>>Reviewfun(String productid)async*{
+  final responce = await http.post(Uri.parse("https://ecom.laurelss.com/Api/product_reviews"),body: {
+    "product_id": productid,
+  });
+  if(responce.statusCode==200){
+    final data = jsonDecode(responce.body);
+    reviewlist.clear();
+    if(reviewlist.isEmpty){
+      for(Map i in data['reviews']){
+        reviewlist.add(Reviewss.fromJson(i));
+        like.add(true);
+      }
+    }
+    yield  reviewlist;
+  }else{
+    yield  reviewlist;
+  }
+}
+
 
 class rating extends StatelessWidget {
   final String? ratting;
   final String? persentage;
   final double? value;
 
-  const rating({super.key, required this.ratting, required this.value,required this.persentage});
+  const rating(
+      {super.key,
+      required this.ratting,
+      required this.value,
+      required this.persentage});
 
   @override
   Widget build(BuildContext context) {
@@ -529,10 +660,12 @@ class rating extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
               minHeight: 5,
               value: value,
-            )
-        ),
+            )),
         wi,
-        Text(persentage!,style: TextStyle(fontSize: 10),)
+        Text(
+          persentage!,
+          style: TextStyle(fontSize: 10),
+        )
       ],
     );
   }
