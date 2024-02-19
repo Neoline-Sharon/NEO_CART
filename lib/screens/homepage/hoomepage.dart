@@ -77,6 +77,7 @@ class _hoomepageState extends State<hoomepage> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(120),
         child: AppBar(
+          automaticallyImplyLeading: false,
           title: Container(
             width: 150,
             child: Image.asset("Assets/logo/NEO E COMMERCE-01.png"),

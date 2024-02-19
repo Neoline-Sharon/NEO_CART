@@ -1,36 +1,65 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-
-void main(){
-  runApp(MaterialApp(
-    home: cat(),
-  ));
+// rage filtter
+void main() {
+  runApp(MyApp());
 }
 
-Future OrderdetaileFUn() async {
-  final responce = await http.get(Uri.parse("https://ecom.laurelss.com/Api/my_carts?customer_id=64"));
-  if (responce.statusCode == 200) {
-    final data = jsonDecode(responce.body);
-    return data;
-  } else {
-    return throw("error");
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: MyHomePage(),
+    );
   }
 }
 
-class cat extends StatelessWidget {
-  const cat({super.key});
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  RangeValues _priceRange = RangeValues(0, 100); // Initial price range
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder(
-        future: OrderdetaileFUn(),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          return Center(
-            child: Text(snapshot.data.toString()),);
-        },
+      appBar: AppBar(
+        title: Text('Price Filter'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Price Range: \$${_priceRange.start.round()} - \$${_priceRange.end.round()}',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 16),
+            RangeSlider(
+              values: _priceRange,
+              min: 0,
+              max: 100,
+              onChanged: (RangeValues values) {
+                setState(() {
+                  _priceRange = values;
+                });
+              },
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                // Perform filtering based on the selected price range
+                print('Filtering prices from ${_priceRange.start} to ${_priceRange.end}');
+              },
+              child: Text('Apply Filter'),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
+
+//

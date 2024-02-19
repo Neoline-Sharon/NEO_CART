@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../../api/get/apiallproductes.dart';
 import '../../api/get/modellclass/reviews.dart';
@@ -525,51 +526,75 @@ class _productpageState extends State<productpage> {
                     color: Color(0xffA8A5A5),
                     thickness: 8,
                   ),
-                  // Allproducteslist[widget.num!].starCount==0? Text("") :
-                  Padding(
+                  Allproducteslist[widget.num!].starCount==0? Text("") :
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                     Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 33),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        hi,
-                        Text(
-                          "Write a Reviews",
-                          style:
-                          TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
-                        ),
-                        hi,
-                        TextField(
-                          controller: controllername,
-                          decoration: InputDecoration(
-                            hintText: "Enter your name",
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                        hi,
-                        TextField(
-                          controller: controllerreviews,
-                          maxLines: 5,
-                          maxLength: 150,
-                          decoration: InputDecoration(
-                            hintText: "How is Your product? What do you like? What do you hata?",
-                            border: OutlineInputBorder()
-                          ),
-                        ),
-                        TextButton(
-                            onPressed: (){
-                              writereviews(Allproducteslist[widget.num!].productId,controllername.text,controllerreviews.text,context);
-                            },
-                            child: Text("Publish your Review"))
-                      ],
-                    ),
+                       child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
+                           hi,
+                           Text(
+                             "Write a Reviews",
+                             style:
+                             TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                           ),
+                           hi,
+                           TextField(
+                             controller: controllername,
+                             decoration: InputDecoration(
+                               hintText: "Enter your name",
+                               border: OutlineInputBorder(),
+                             ),
+                           ),
+                           hi,
+                           TextField(
+                             controller: controllerreviews,
+                             maxLines: 5,
+                             maxLength: 150,
+                             decoration: InputDecoration(
+                                 hintText: "How is Your product? What do you like? What do you hata?",
+                                 border: OutlineInputBorder()
+                             ),
+                           ),
+                           hi,
+                           ///////
+                           Container(
+                             height: 60,
+                             child: Row(
+                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                               children: [
+                                 ProductReviewForm(),
+                                 TextButton(
+                                     onPressed: (){
+                                       setState(() {
+                                         writereviews(Allproducteslist[widget.num!].productId,controllername.text,controllerreviews.text,_rating.toString(),context);
+                                       });
+                                     },
+                                     child: Text("Publish your Review"))
+                               ],
+                             ),
+                           ),
+                         ],
+                       ),
+                     ),
+                      hi,
+                      Divider(
+                        color: Color(0xffA8A5A5),
+                        thickness: 8,
+                      ),
+                      hi,
+                    ],
                   ),
-                  hi,
-                  Divider(
-                    color: Color(0xffA8A5A5),
-                    thickness: 8,
-                  ),
-                  hi,
+                  // hi,
+                  // Divider(
+                  //   color: Color(0xffA8A5A5),
+                  //   thickness: 8,
+                  // ),
+                  // hi,
                   products(),
                   SizedBox(
                     height: 70,
@@ -584,8 +609,48 @@ class _productpageState extends State<productpage> {
 
 TextEditingController controllerreviews = TextEditingController();
 TextEditingController controllername = TextEditingController();
+double _rating = 0.0;
 
-writereviews(productid,name,review,context)async{
+class ProductReviewForm extends StatefulWidget {
+  @override
+  _ProductReviewFormState createState() => _ProductReviewFormState();
+}
+
+class _ProductReviewFormState extends State<ProductReviewForm> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          RatingBar(
+            itemSize: 20,
+            initialRating: _rating,
+            direction: Axis.horizontal,
+            allowHalfRating: true,
+            itemCount: 5,
+            ratingWidget: RatingWidget(
+              full: Icon(Icons.star, color: Colors.amber),
+              half: Icon(Icons.star_half, color: Colors.amber),
+              empty: Icon(Icons.star_border, color: Colors.amber),
+            ),
+            onRatingUpdate: (rating) {
+              setState(() {
+                _rating = rating;
+              });
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+}
+
+writereviews(productid,name,review,rating,context)async{
   final responce = await http.post(Uri.parse('https://ecom.laurelss.com/Api/rating'),
       body: {
         'product_id':productid,
@@ -597,6 +662,8 @@ writereviews(productid,name,review,context)async{
   );
   if(responce.statusCode==200){
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(responce.body.toString())));
+    controllername.clear();
+    controllerreviews.clear();
   }else{
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("error")));
   }

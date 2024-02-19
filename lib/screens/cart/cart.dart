@@ -653,7 +653,28 @@ class _cardproductState extends State<cardproduct> {
           ),
           Padding(
             padding: const EdgeInsets.only(right: 10),
-            child: TextButton(onPressed: widget.remove, child: Text("Remove")),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                          width: 100,
+                          height: 30,
+                          child: TextField(
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder()
+                            ),
+                          )),
+                      TextButton(onPressed: (){}, child: Text("Apply"))
+                    ],
+                  ),
+                ),
+                TextButton(onPressed: widget.remove, child: Text("Remove")),
+              ],
+            ),
           ),
           // Padding(
           //   padding: const EdgeInsets.all(10),

@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:neocart/controller/controller.dart';
 import 'package:neocart/examplefile/list.dart';
@@ -37,25 +38,31 @@ class _bottomnavigationcontrollState extends State<bottomnavigationcontroll> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      backgroundColor: Colors.white,
-      extendBody: true,
-      bottomNavigationBar: CurvedNavigationBar(
-        index: widget.num == true ? 3 : _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-            widget.num = false;
-          }
-          );
-        },
-        height: 60,
-        items: icon,
-        color: _colors.gray,
-        buttonBackgroundColor: _colors.gray,
-        backgroundColor: Colors.transparent,
+    return  WillPopScope(
+      onWillPop: ()async{
+        SystemNavigator.pop();
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        extendBody: true,
+        bottomNavigationBar: CurvedNavigationBar(
+          index: widget.num == true ? 3 : _currentIndex,
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+              widget.num = false;
+            }
+            );
+          },
+          height: 60,
+          items: icon,
+          color: _colors.gray,
+          buttonBackgroundColor: _colors.gray,
+          backgroundColor: Colors.transparent,
+        ),
+        body: widget.num == true ? cart() : pages[_currentIndex],
       ),
-      body: widget.num == true ? cart() : pages[_currentIndex],
     );
 
   }
